@@ -1,0 +1,10 @@
+{
+  "extends": "@cs-open/tsconfig/react.json",
+  "display": "@cs-open/react-fabric",
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist"],
+  "compilerOptions": {
+    "outDir": "dist",
+  },
+  "name": "@cs-open/react-fabric"
+}
