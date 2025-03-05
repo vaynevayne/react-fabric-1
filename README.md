@@ -8,7 +8,6 @@ pnpm add @cs-open/react-fabric
 
 ```jsx
 // tailwind.config.js
-const { heroui } = require('@heroui/react')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -35,6 +34,7 @@ module.exports = {
 
 ```jsx
 import { ReactFabric, Rect, Path, BackgroundImage, Objects } from '@cs-open/react-fabric'
+
 ;<ReactFabric defaultCentered defaultSelection={false}>
   <BackgroundImage scaleToFit src={imgBaseURL + currentSrc} />
   <Rect width={100} height={100} left={100} top={100} />
