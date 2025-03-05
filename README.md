@@ -1,0 +1,250 @@
+### 用法:
+
+```jsx
+pnpm add @cs-open/react-fabric
+```
+
+内部有少量 css 类名(3-5个), 建立在 tailwindcss 之上, 因此需要配置,当然你也可以在遇到问题时再加
+
+```jsx
+// tailwind.config.js
+const { heroui } = require('@heroui/react')
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    // ...
+    // make sure it's pointing to the ROOT node_module
+    './node_modules/@cs-open/react-fabric/dist/**/*.{js,mjs,ts,jsx,tsx}',
+  ],
+}
+```
+
+[![Edit vaynevayne/react-fabric/draft/competent-ioana](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/github/vaynevayne/react-fabric/draft/competent-ioana?embed=1&file=%2Fexamples%2Fastro%2Fsrc%2Fcomponents%2FCounter.tsx)
+
+组件:
+
+- ReactFabric
+- Rect
+- Path
+- BackgroundImage
+- Group
+- Text
+
+- 受控模式
+
+```jsx
+import { ReactFabric, Rect, Path, BackgroundImage, Objects } from '@cs-open/react-fabric'
+;<ReactFabric defaultCentered defaultSelection={false}>
+  <BackgroundImage scaleToFit src={imgBaseURL + currentSrc} />
+  <Rect width={100} height={100} left={100} top={100} />
+  <Path path="M 0 0 L 100 100" />
+  <Objects objects={[]} />
+</ReactFabric>
+```
+
+组件:
+
+- ReactFabric
+- defaultSelection:修改fabric默认值; 接受 Fabric Canvas 类的所有 props, 但建议使用非受控模式,目前仅支持一个非受控属性 `defaultSelection={false}`,受控用法暂未测试
+- defaultCentered: 背景图是否居中显示
+
+- BackgroundImage
+  scaleToFit 缩放背景图以适应屏幕
+  scaleToCover 缩放背景图以适应屏幕,另一张模式
+  其他 FabricImage 的 props
+
+- Rect 矩形
+
+  - 接受 Fabric Rect 类的所有 props, 提供工具函数 `getRectProps` 生成矩形属性
+
+- Path 路径
+
+  - 接受 Fabric Path 类的所有 props
+
+- Group 组
+
+  - 接受 Fabric Group 类的所有 props, 用于整体拖动场景
+
+- Text 文本
+
+  - 接受 Fabric Text 类的所有 props
+
+- Objects
+  objects 数组类型,用于从数据动态生成所有图形, 需要 type 字段
+
+- Control
+- dom 控件,用于实现tooltip效果
+  - closeOnOutsideClick 是否在点击外部时关闭,默认true
+  - Content 内容
+  - placement 位置 参考 floating-ui 文档
+  - open 是否打开
+  - onOpenChange 打开状态改变时触发
+    支持 Control 嵌套,理论上无限嵌套
+
+事件:
+
+- 所有组件均支持所有内部事件,规则为前面加on, 小驼峰, 比如 canvas `mouse:down` -> `onMouseDown`, 有类型提示
+
+### 状态管理
+
+`ReactFabricProvider` + `useReactFabric`
+
+```jsx
+const Toolbar = () => {
+  const { setMinManualZoom, setMaxManualZoom, reset, setDefaultSelection, canvas } = useReactFabric()
+  return <div>Toolbar</div>
+}
+
+const Main = () => {
+  return (
+    <ReactFabricProvider>
+      <ReactFabric>
+        <BackgroundImage scaleToFit src={imgBaseURL + currentSrc} />
+      </ReactFabric>
+      <Toolbar />
+    </ReactFabricProvider>
+  )
+}
+```
+
+- 受控模式
+  支持所有属性和事件, 因此天然支持了受控模式
+
+```jsx
+
+const [rect, setRect] = useState({
+  points: '100,100,200,200,300,300,400,400',
+})
+
+<ReactFabric>
+  <Rect
+    left={getRectProps(rect?.points, 5)?.left}
+    top={getRectProps(rect?.points, 5)?.top}
+    width={getRectProps(rect?.points, 5)?.width}
+    height={getRectProps(rect?.points, 5)?.height}
+    onModified={({ target }) => {
+      const rect = target as FabricRect
+      setRect({
+        points: rect.getCoords().reduce<number[]>((acc, { x, y }) => [...acc, Math.round(x), Math.round(y)], [])
+          .join(','),
+      })
+    }}
+  />
+   <Control
+                                className="z-10"
+                                closeOnOutsideClick={false}
+                                open={open}
+                                onOpenChange={(nextOpen)=>setOpen(nextOpen)}
+                                Content={
+                                <button>删除</button>
+                                }
+                                placement="bottom"
+                              >
+</ReactFabric>
+```
+
+- 非受控模式
+
+图形在 Group 中渲染时,由于 Group 矩阵会导致内部图形身上的坐标系发生变化, 因此受控模式无法很好的支持到各种矩阵计算
+场景: 结合 Group 使用, 注意事项 在Group身上使用onModified等方式修改坐标, 而不是修改内部基础图形
+
+```jsx
+<ReactFabric>
+  <Group key={groupKey} onModified={({ target }) => {
+    const group = target as FabricGroup
+    const objects = group.getObjects()
+   const nextShapes =  objects.map(object=> object
+                                  .getCoords()
+                                  .reduce<number[]>((acc, { x, y }) => [...acc, Math.round(x), Math.round(y)], [])
+                                  .join(','))
+
+
+
+  }}>
+    <Rect
+      defaultLeft={getRectProps(rect?.points, 5)?.left}
+      defaultTop={getRectProps(rect?.points, 5)?.top}
+      defaultWidth={getRectProps(rect?.points, 5)?.width}
+      defaultHeight={getRectProps(rect?.points, 5)?.height}
+    />
+  </Group>
+</ReactFabric>
+
+// 受控模式在 通过 api 更新画布
+  const { canvas } = useReactFabric()
+ // 向上-向下+偏移
+  const onTranslateY = (px: number) => {
+    if (!canvas) {
+      console.warn('canvas is null')
+      return
+    }
+
+    const group = canvas.item(0) as FabricGroup
+    group.top = group.top + px
+    group.setCoords()
+
+    canvas.requestRenderAll()
+    // 不会触发onModified,因此需要手动set
+    const objects = group.getObjects()
+    // 不会触发onModified,因此需要手动set
+
+    const nextShapes = formList[sideType - 1]?.shapes?.map(shape => {
+      const fabricObject = objects.find((obj: any) => obj.id === shape.id)
+      if (!fabricObject) return shape
+
+      // Convert fabric object coordinates to points string
+      const points = fabricObject
+        .getCoords()
+        .reduce<number[]>((acc, { x, y }) => [...acc, Math.round(x), Math.round(y)], [])
+        .join(',')
+
+      return {
+        ...shape,
+        points,
+      }
+    })
+
+    setPageStore({
+      formList: produce(formList, draft => {
+        set(draft, [sideType - 1, 'shapes'], nextShapes)
+      }),
+    })
+  }
+```
+
+### 工具函数
+
+- getRectProps 根据points 生成矩形属性
+
+```jsx
+const result = {
+  left: Number(x1),
+  top: Number(y1),
+  width: Math.abs(x2 - x1) - strokeWidth,
+  height: Math.abs(y3 - y1) - strokeWidth,
+  strokeWidth,
+}
+```
+
+### 插件
+
+绘制矩形
+
+支持rect的所有props
+
+```jsx
+<PluginFreeRect
+  strokeWidth={5}
+  onComplete={async (nextRect, { canvas }) => {
+    let pointsArray = nextRect.pointsArray
+    console.log(pointsArray)
+  }}
+/>
+```
+
+网格线
+
+```jsx
+<PluginGrid></PluginGrid>
+```
