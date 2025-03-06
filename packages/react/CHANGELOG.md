@@ -1,5 +1,11 @@
 # @cs-open/react-fabric
 
+## 0.0.4
+
+### Patch Changes
+
+- 3423785: 整理发布
+
 ## 0.0.3
 
 ### Patch Changes
