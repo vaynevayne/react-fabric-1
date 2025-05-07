@@ -19,7 +19,7 @@ const stageObject = (object: FabricObject) => {
 }
 
 const stage = (canvas: Canvas | null) => {
-  if (!canvas) return () => {}
+  if (!canvas) return () => { }
   const objects = canvas.getObjects()
 
   const unStagedList = objects.map(object => {
@@ -42,11 +42,13 @@ const useDraggable = () => {
     if (!draggable) return
     const unStaged = stage(canvas)
 
-    const onMouseDown = ({ e }: TPointerEventInfo<MouseEvent>) => {
+    const onMouseDown = ({ e }: TPointerEventInfo<TPointerEvent>) => {
       // @ts-expect-error 触摸屏拿不到clintX
       const touch = e.changedTouches?.[0]
       isDraggingRef.current = true
+      // @ts-expect-error 触摸屏拿不到clintX
       lastPosXRef.current = e.clientX ?? touch?.clientX
+      // @ts-expect-error 触摸屏拿不到clintX
       lastPosYRef.current = e.clientY ?? touch?.clientY
     }
 

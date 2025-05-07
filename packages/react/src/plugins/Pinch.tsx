@@ -17,6 +17,7 @@ const Pinch = () => {
    * 注册时间
    */
   useEffect(() => {
+    let cleanup = () => {}
     /**
      * 双指缩放
      * @param e
@@ -55,20 +56,27 @@ const Pinch = () => {
       })
     }
     if (!canvas) return
+    ;(async () => {
+      try {
+        const Hammer = (await import('hammerjs')).default
+        const hammer = new Hammer(canvas.getSelectionElement())
+        // 启用 pinch 事件识别器
+        hammer.get('pinch').set({ enable: true })
 
-    const hammer = new Hammer(canvas.getSelectionElement())
-    // 启用 pinch 事件识别器
-    hammer.get('pinch').set({ enable: true })
-    hammer.on('pinchmove', onPinchMove)
-    hammer.on('pinchend', onPinchEnd)
+        hammer.on('pinchmove', onPinchMove)
+        hammer.on('pinchend', onPinchEnd)
 
-    return () => {
-      if (hammer) {
-        hammer.off('pinchmove', onPinchMove)
-        hammer.off('pinchend', onPinchEnd)
-        hammer.destroy()
+        cleanup = () => {
+          hammer.off('pinchmove', onPinchMove)
+          hammer.off('pinchend', onPinchEnd)
+          hammer.destroy()
+        }
+      } catch (err) {
+        console.warn('Failed to load Hammer.js. Touch gestures will not be available.')
       }
-    }
+    })()
+
+    return () => cleanup()
   }, [canvas, store])
 
   return null

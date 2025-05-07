@@ -1,5 +1,6 @@
 ---
 // Component Imports
+import '../styles/global.css';
 import Canvas from '../components/Canvas';
 const someProps = {
 	count: 0,
@@ -15,21 +16,20 @@ const someProps = {
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<link rel="icon" type="image/svg+xml" href="/react-fabric/favicon.svg" />
-		<style>
-			html,
-			body {
-				font-family: system-ui;
-				margin: 0;
-			}
-			body {
-				padding: 2rem;
-			}
-		</style>
+		
 	</head>
 	<body>
+		<header class="flex justify-end px-4 py-2 gap-2">
+		<a href="https://codesandbox.io/p/github/cs-open/react-fabric/main"  target="_blank" >
+			<img src="https://developer.stackblitz.com/img/open_in_stackblitz_small.svg" alt="codesandbox"/>
+		</a>
+			<a href="https://github.com/cs-open/react-fabric">
+				<img src="https://img.shields.io/github/stars/cs-open/react-fabric.svg?style=social&label=Star&maxAge=2592000" alt="Github"  />
+			</a>
+		</header>
 		<main style="width: 80vw; height: 80vh;">
-			<Canvas {...someProps}  client:only>
-			</Canvas>
-		</main>
+				<Canvas {...someProps} client:only />
+			</main>
+		
 	</body>
 </html>
