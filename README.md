@@ -4,6 +4,10 @@
 pnpm add @cs-open/react-fabric
 ```
 
+## 可选依赖
+
+- hammerjs: 用于支持触摸屏手势。如果您的应用不需要触摸屏支持,可以不安装此依赖。
+
 内部有少量 css 类名(3-5个), 建立在 tailwindcss 之上, 因此需要配置,当然你也可以在遇到问题时再加
 
 ```jsx
@@ -34,7 +38,6 @@ module.exports = {
 
 ```jsx
 import { ReactFabric, Rect, Path, BackgroundImage, Objects } from '@cs-open/react-fabric'
-
 ;<ReactFabric defaultCentered defaultSelection={false}>
   <BackgroundImage scaleToFit src={imgBaseURL + currentSrc} />
   <Rect width={100} height={100} left={100} top={100} />
