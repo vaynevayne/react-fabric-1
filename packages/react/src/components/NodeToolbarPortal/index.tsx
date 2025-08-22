@@ -1,5 +1,4 @@
 import { createPortal } from 'react-dom'
-import { twMerge } from 'tailwind-merge'
 import type { ReactNode } from 'react'
 import { forwardRef, useCallback, useEffect, useRef } from 'react'
 import { useStore } from '../../hooks/useStore'
@@ -50,7 +49,7 @@ const NodeToolbarPortal = forwardRef<HTMLDivElement, Props>(({ children, classNa
 
   // 创建 DOM 元素
   const div = document.createElement('div')
-  div.className = twMerge('react-fabric__portal', className)
+  div.className = `react-fabric__portal ${className}`
   if (onClick) {
     div.addEventListener('click', e => {
       e.stopPropagation()

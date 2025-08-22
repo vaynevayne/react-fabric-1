@@ -4,23 +4,28 @@
 pnpm add @cs-open/react-fabric
 ```
 
-## 可选依赖
+## 插件
 
-- hammerjs: 用于支持触摸屏手势。如果您的应用不需要触摸屏支持,可以不安装此依赖。
+### 触摸手势插件 (Pinch)
 
-内部有少量 css 类名(3-5个), 建立在 tailwindcss 之上, 因此需要配置,当然你也可以在遇到问题时再加
+如果需要支持触摸屏手势（如双指缩放），请安装 `hammerjs` 依赖：
+
+```bash
+npm install hammerjs
+# 或
+yarn add hammerjs
+# 或
+pnpm add hammerjs
+```
+
+然后在你的组件中使用 `PluginPinch` 插件：
 
 ```jsx
-// tailwind.config.js
-
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    // ...
-    // make sure it's pointing to the ROOT node_module
-    './node_modules/@cs-open/react-fabric/dist/**/*.{js,mjs,ts,jsx,tsx}',
-  ],
-}
+import { ReactFabric, PluginPinch } from '@cs-open/react-fabric'
+;<ReactFabric>
+  <PluginPinch />
+  {/* 其他组件 */}
+</ReactFabric>
 ```
 
 [![Edit vaynevayne/react-fabric/draft/competent-ioana](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/github/vaynevayne/react-fabric/draft/competent-ioana?embed=1&file=%2Fexamples%2Fastro%2Fsrc%2Fcomponents%2FCounter.tsx)

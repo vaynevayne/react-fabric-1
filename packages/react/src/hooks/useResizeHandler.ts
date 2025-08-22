@@ -1,4 +1,4 @@
-import { throttle } from 'lodash-es'
+import { throttle } from 'es-toolkit'
 import { useCallback, useEffect } from 'react'
 import { useStore } from './useStore'
 
@@ -26,10 +26,7 @@ const useResizeHandler = () => {
 
     // 初始化时立即计算一次
     updateDimensions()
-    const throttledUpdate = throttle(updateDimensions, 200, {
-      leading: true,
-      trailing: true,
-    })
+    const throttledUpdate = throttle(updateDimensions, 200)
 
     window.addEventListener('resize', throttledUpdate)
     const resizeObserver = new ResizeObserver(throttledUpdate)

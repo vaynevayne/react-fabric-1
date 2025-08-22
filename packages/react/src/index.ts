@@ -2,8 +2,6 @@ export { default as ReactFabric } from './container/ReactFabric'
 export { useReactFabric } from './hooks/useReactFabric'
 export { useZoom } from './hooks/useZoom'
 
-export { default as PluginToolbarVertical } from './toolbar/Vertical'
-export type { ToolbarVerticalProps } from './toolbar/Vertical'
 
 // Components
 export { default as BackgroundImage } from './components/BackgroundImage'
