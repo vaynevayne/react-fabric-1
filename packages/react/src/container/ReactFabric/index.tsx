@@ -1,5 +1,9 @@
 import type { CSSProperties } from 'react'
 import { forwardRef, memo } from 'react'
+import { Wrapper } from './Wrapper'
+import Canvas from '../../components/Canvas'
+import { StoreUpdater } from '../../components/StoreUpdater'
+import Loading from '../../components/Loading'
 
 // 自定义基础事件类型
 type FabricEvent = {
@@ -20,11 +24,6 @@ type BaseCanvasProps = {
   children?: React.ReactNode
   // 添加其他必要的 Canvas 属性
 }
-
-import { Wrapper } from './Wrapper'
-
-import Canvas from '../../components/Canvas'
-import { StoreUpdater } from '../../components/StoreUpdater'
 
 const wrapperStyle: CSSProperties = {
   width: '100%',
@@ -82,7 +81,7 @@ const ForwardReactFabric = forwardRef<HTMLDivElement, ReactFabricProps>(
     ref,
   ) => {
     return (
-      <div style={{ ...style, ...wrapperStyle }} ref={ref} className={`react-fabric ${className || ''}`}>
+      <div style={{ ...wrapperStyle, ...style }} ref={ref} className={`react-fabric ${className || ''}`}>
         <Wrapper width={width} height={height}>
           <StoreUpdater
             minManualZoom={minManualZoom}
@@ -103,6 +102,7 @@ const ForwardReactFabric = forwardRef<HTMLDivElement, ReactFabricProps>(
           >
             {children}
           </Canvas>
+          <Loading />
         </Wrapper>
       </div>
     )

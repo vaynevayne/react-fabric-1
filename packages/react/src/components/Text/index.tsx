@@ -1,5 +1,5 @@
 import type { Group as BaseGroup } from 'fabric'
-import { FabricText } from 'fabric'
+import { FabricText, Point, util } from 'fabric'
 import { forwardRef, memo, useEffect, useImperativeHandle } from 'react'
 import { useCreateObject } from '../../hooks/useCreateObject'
 import { useSplitProps } from '../../hooks/useSplitProps'
@@ -13,6 +13,17 @@ export type TextProps<T = unknown> = Partial<ConstructorParameters<typeof Fabric
   group?: BaseGroup
   text: string
 } & T
+
+FabricText.prototype.set({
+  _getNonTransformedDimensions() {
+    // Object dimensions
+    return new Point(this.width, this.height).scalarAdd(this.padding)
+  },
+  _calculateCurrentDimensions() {
+    // Controls dimensions
+    return util.transformPoint(this._getTransformedDimensions(), this.getViewportTransform(), true)
+  },
+})
 
 const Text = forwardRef<Handle, TextProps>(({ group, text, ...props }, ref) => {
   const store = useStoreApi()
