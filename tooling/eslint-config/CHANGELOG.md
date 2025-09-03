@@ -1,5 +1,11 @@
 # @cs-open/eslint-config
 
+## 0.0.5
+
+### Patch Changes
+
+- sas
+
 ## 0.0.4
 
 ### Patch Changes
