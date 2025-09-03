@@ -1,18 +1,21 @@
 import type { Group as BaseGroup } from 'fabric'
 import { Line as BaseLine } from 'fabric'
-import { forwardRef, memo, useImperativeHandle } from 'react'
+import { cloneElement, forwardRef, isValidElement, memo, useImperativeHandle, type ReactNode } from 'react'
 import { useCreateObject } from '../../hooks/useCreateObject'
 import { useSplitProps } from '../../hooks/useSplitProps'
 import type { AllObjectEvents } from '../../types/object'
+import { useChildrenPosition } from '../../hooks/useChildrenPosition'
 
 export type Handle = BaseLine | undefined
 
 export type LineProps<T = unknown> = Partial<ConstructorParameters<typeof BaseLine>[1] & AllObjectEvents> & {
   group?: BaseGroup
   path?: string
+  children?: ReactNode
+
 } & T
 
-const Line = forwardRef<Handle, LineProps>(({ group, x1, y1, x2, y2, ...props }, ref) => {
+const Line = forwardRef<Handle, LineProps>(({ group, x1, y1, x2, y2, children, ...props }, ref) => {
   const [listeners, attributes] = useSplitProps(props)
 
   const instance = useCreateObject({
@@ -22,10 +25,20 @@ const Line = forwardRef<Handle, LineProps>(({ group, x1, y1, x2, y2, ...props },
     group,
     listeners,
   })
+  const childrenRef = useChildrenPosition<HTMLDivElement>(instance)
 
   useImperativeHandle(ref, () => instance, [instance])
 
-  return null
+  return children ? (
+    <>
+      {isValidElement(children)
+        ? cloneElement(children, {
+          ...(children.props as any),
+          ref: childrenRef,
+        } as any)
+        : null}
+    </>
+  ) : null
 })
 
 export default memo(Line)

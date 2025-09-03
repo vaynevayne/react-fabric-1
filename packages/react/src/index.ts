@@ -2,8 +2,6 @@ export { default as ReactFabric } from './container/ReactFabric'
 export { useReactFabric } from './hooks/useReactFabric'
 export { useZoom } from './hooks/useZoom'
 
-export { default as PluginToolbarVertical } from './toolbar/Vertical'
-export type { ToolbarVerticalProps } from './toolbar/Vertical'
 
 // Components
 export { default as BackgroundImage } from './components/BackgroundImage'
@@ -36,6 +34,18 @@ export type { LineProps } from './components/Line'
 export { default as Ellipse } from './components/Ellipse'
 export type { EllipseProps } from './components/Ellipse'
 
+// IText
+export { default as IText } from './components/IText'
+export type { ITextProps } from './components/IText'
+
+// Textbox
+export { default as Textbox } from './components/Textbox'
+export type { TextboxProps } from './components/Textbox'
+
+// WavyLine
+export { default as WavyLine } from './components/WavyLine'
+export type { WavyLineProps } from './components/WavyLine'
+
 // Objects
 export { default as Objects } from './components/Objects'
 export type { ObjectsProps } from './components/Objects'
@@ -44,4 +54,6 @@ export type { ObjectsProps } from './components/Objects'
 export { default as PluginFreeRect } from './plugins/FreeRect'
 export { default as PluginGridLine } from './plugins/GridLine'
 export { default as PluginPinch } from './plugins/Pinch'
+export { default as PluginMask } from './plugins/Mask'
 export type { FreeRectProps } from './plugins/FreeRect'
+

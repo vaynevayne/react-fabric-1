@@ -1,7 +1,6 @@
-import { computePosition, flip, offset, shift,ComputePositionConfig } from '@floating-ui/core'
+import { computePosition, flip, offset, shift, ComputePositionConfig } from '@floating-ui/core'
 import type { FabricObject, FabricObjectProps, TPointerEvent, TPointerEventInfo } from 'fabric'
 import { util } from 'fabric'
-import { twMerge } from 'tailwind-merge'
 import type { ReactNode } from 'react'
 import { useMemo } from 'react'
 import { useCallback } from 'react'
@@ -88,8 +87,8 @@ const Control = React.forwardRef(
       const viewportCoords = sceneCoords.map(point => util.sendPointToPlane(point, canvas.viewportTransform, undefined))
 
       const platform = {
-        getElementRects: (data:any) => data,
-        getDimensions: (element:any) => element,
+        getElementRects: (data: any) => data,
+        getDimensions: (element: any) => element,
         getClippingRect: () => ({
           x: 0,
           y: 0,
@@ -176,7 +175,7 @@ const Control = React.forwardRef(
         {newChildren}
         {open && (
           <NodeToolbarPortal
-            className={twMerge('absolute', className)}
+            className={`absolute ${className}`}
             ref={floatingElRef}
             onClick={e => {
               e.stopPropagation()

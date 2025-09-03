@@ -56,9 +56,9 @@ importers:
 
   packages/react:
     dependencies:
-      '@types/lodash-es':
-        specifier: ^4.17.12
-        version: 4.17.12
+      es-toolkit:
+        specifier: ^1.39.10
+        version: 1.39.10
       fontfaceobserver:
         specifier: ^2.3.0
         version: 2.3.0
@@ -72,6 +72,9 @@ importers:
       '@cs-open/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
+      '@eslint/js':
+        specifier: ^9.33.0
+        version: 9.33.0
       '@floating-ui/core':
         specifier: ^1.6.9
         version: 1.6.9
@@ -96,15 +99,15 @@ importers:
       cssnano:
         specifier: ^6.0.1
         version: 6.1.2(postcss@8.4.49)
+      eslint:
+        specifier: ^9.16.0
+        version: 9.16.0(jiti@2.4.2)
       fabric:
         specifier: ^6.6.4
         version: 6.6.4
       hammerjs:
-        specifier: ^2.0.8
+        specifier: ^2.0.0
         version: 2.0.8
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
       postcss:
         specifier: ^8.4.21
         version: 8.4.49
@@ -124,10 +127,10 @@ importers:
         specifier: ^0.6.1
         version: 0.6.1(postcss@8.4.49)
       react:
-        specifier: ^18.3.1
+        specifier: '>=17.0.0'
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: '>=17.0.0'
         version: 18.3.1(react@18.3.1)
       rimraf:
         specifier: ^6.0.1
@@ -135,14 +138,14 @@ importers:
       rollup:
         specifier: ^4.28.1
         version: 4.28.1
-      tailwind-merge:
-        specifier: ^3.0.2
-        version: 3.0.2
+      typescript-eslint:
+        specifier: ^8.17.0
+        version: 8.17.0(eslint@9.16.0(jiti@2.4.2))(typescript@5.7.2)
       use-sync-external-store:
         specifier: ^1.4.0
         version: 1.4.0(react@18.3.1)
       zustand:
-        specifier: ^5.0.3
+        specifier: ^4.0.0 || ^5.0.0
         version: 5.0.3(@types/react@18.3.14)(react@18.3.1)(use-sync-external-store@1.4.0(react@18.3.1))
 
   tooling/eslint-config:
@@ -574,6 +577,10 @@ packages:
 
   '@eslint/js@9.16.0':
     resolution: {integrity: sha512-tw2HxzQkrbeuvyj1tG2Yqq+0H9wGoI2IMk4EOsQeX+vmd75FtJAzf+gTA69WF+baUKRYQ3x2kbLE08js5OsTVg==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@eslint/js@9.33.0':
+    resolution: {integrity: sha512-5K1/mKhWaMfreBGJTwval43JJmkip0RmM+3+IuqupeSKNC/Th2Kc7ucaq5ovTSra/OOKB9c58CGSz3QMVbWt0A==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@eslint/object-schema@2.1.5':
@@ -1185,12 +1192,6 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
-
-  '@types/lodash-es@4.17.12':
-    resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
-
-  '@types/lodash@4.17.13':
-    resolution: {integrity: sha512-lfx+dftrEZcdBPczf9d0Qv0x+j/rfNCMuC6OcfXmO8gkfeNAY88PgKUbvG56whcN23gc27yenwF6oJZXGFpYxg==}
 
   '@types/mdast@4.0.4':
     resolution: {integrity: sha512-kGaNbPh1k7AFzgpud/gMdvIm5xuECykRR+JnWKQno9TAXVa6WIVCGTPvYGekIDL4uwCZQSYbUxNBSb1aUo79oA==}
@@ -1912,6 +1913,9 @@ packages:
   es-to-primitive@1.3.0:
     resolution: {integrity: sha512-w+5mJ3GuFL+NjVtJlvydShqE1eN3h3PbI7/5LAsYJP/2qtuMXjfL2LpHSRqo4b4eSF5K/DH1JXKUAHSB2UW50g==}
     engines: {node: '>= 0.4'}
+
+  es-toolkit@1.39.10:
+    resolution: {integrity: sha512-E0iGnTtbDhkeczB0T+mxmoVlT4YNweEKBLq7oaU4p11mecdsZpNWOglI4895Vh4usbQ+LsJiuLuI2L0Vdmfm2w==}
 
   esbuild@0.25.4:
     resolution: {integrity: sha512-8pgjLUcUjcgDg+2Q4NYXnPbo/vncAY4UmyaCm0jZevERqCHZIaWwdJHkf8XQtu4AxSKCdvrUbT0XUr1IdZzI8Q==}
@@ -2669,9 +2673,6 @@ packages:
   locate-path@6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
-
-  lodash-es@4.17.21:
-    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
 
   lodash.memoize@4.1.2:
     resolution: {integrity: sha512-t7j+NzmgnQzTAYXcsHYLgimltOV1MXHtlOWf6GjL9Kj8GK5FInw5JotxvbOs+IvV1/Dzo04/fCGfLVs7aXb4Ag==}
@@ -3805,9 +3806,6 @@ packages:
   symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
 
-  tailwind-merge@3.0.2:
-    resolution: {integrity: sha512-l7z+OYZ7mu3DTqrL88RiKrKIqO3NcpEO8V/Od04bNpvk0kiIFndGEoqfuzvj4yuhRkHKjRkII2z+KS2HfPcSxw==}
-
   tailwindcss@4.1.5:
     resolution: {integrity: sha512-nYtSPfWGDiWgCkwQG/m+aX83XCwf62sBgg3bIlNiiOcggnS1x3uVRDAuyelBFL+vJdOPPCGElxv9DjHJjRHiVA==}
 
@@ -4812,6 +4810,8 @@ snapshots:
 
   '@eslint/js@9.16.0': {}
 
+  '@eslint/js@9.33.0': {}
+
   '@eslint/object-schema@2.1.5': {}
 
   '@eslint/plugin-kit@0.2.4':
@@ -5315,12 +5315,6 @@ snapshots:
       '@types/unist': 3.0.3
 
   '@types/json-schema@7.0.15': {}
-
-  '@types/lodash-es@4.17.12':
-    dependencies:
-      '@types/lodash': 4.17.13
-
-  '@types/lodash@4.17.13': {}
 
   '@types/mdast@4.0.4':
     dependencies:
@@ -6264,6 +6258,8 @@ snapshots:
       is-date-object: 1.0.5
       is-symbol: 1.1.0
 
+  es-toolkit@1.39.10: {}
+
   esbuild@0.25.4:
     optionalDependencies:
       '@esbuild/aix-ppc64': 0.25.4
@@ -7190,8 +7186,6 @@ snapshots:
   locate-path@6.0.0:
     dependencies:
       p-locate: 5.0.0
-
-  lodash-es@4.17.21: {}
 
   lodash.memoize@4.1.2: {}
 
@@ -8618,8 +8612,6 @@ snapshots:
 
   symbol-tree@3.2.4:
     optional: true
-
-  tailwind-merge@3.0.2: {}
 
   tailwindcss@4.1.5: {}
 

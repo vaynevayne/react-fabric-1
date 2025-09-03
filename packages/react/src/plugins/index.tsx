@@ -1,0 +1,6 @@
+export { default as PluginFreeRect } from './FreeRect'
+export { default as PluginGrid } from './GridLine'
+export type { FreeRectProps } from './FreeRect'
+export { default as PluginPinch } from './Pinch'
+export { default as PluginFreeDraw } from './FreeDraw'
+export { default as PluginFreeText } from './FreeText'
