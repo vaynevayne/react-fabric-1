@@ -20,6 +20,8 @@ export default [
       ],
       // 关闭显式 any 的检查，隐式 any 由 TypeScript 的 noImplicitAny 选项检查
       '@typescript-eslint/no-explicit-any': 'off',
+      // 允许使用 console，因为这是一个库项目，需要向用户提供有用的警告信息
+      'no-console': 'off',
     },
   },
 ]

@@ -27,7 +27,7 @@ export function useCreateObject<T extends FabricObject, P = any>({
   listeners = {},
 }: CreateObjectProps<T, P>) {
   const store = useStoreApi()
-  const canvas = useStore( state => state.canvas)
+  const canvas = useStore(state => state.canvas)
 
 
   // 使用 ref 记录控制模式
@@ -48,7 +48,6 @@ export function useCreateObject<T extends FabricObject, P = any>({
         ? new (Constructor as DualParamConstructor<T, P>)(param, mergedAttributes)
         : new (Constructor as SingleParamConstructor<T>)(mergedAttributes)
     return newInstance
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Constructor, param])
 
   // 计算父容器（group 或 canvas）

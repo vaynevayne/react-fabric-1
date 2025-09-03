@@ -1,17 +1,19 @@
 import type { Group as BaseGroup } from 'fabric'
 import { FabricText, Point, util } from 'fabric'
-import { forwardRef, memo, useEffect, useImperativeHandle } from 'react'
+import { cloneElement, forwardRef, isValidElement, memo, useEffect, useImperativeHandle, type ReactNode } from 'react'
 import { useCreateObject } from '../../hooks/useCreateObject'
 import { useSplitProps } from '../../hooks/useSplitProps'
 import { useStoreApi } from '../../hooks/useStore'
 import type { AllObjectEvents } from '../../types/object'
 import FontFaceObserver from 'fontfaceobserver'
+import { useChildrenPosition } from '../../hooks/useChildrenPosition'
 
 export type Handle = FabricText | undefined
 
 export type TextProps<T = unknown> = Partial<ConstructorParameters<typeof FabricText>[1] & AllObjectEvents> & {
   group?: BaseGroup
   text: string
+  children?: ReactNode
 } & T
 
 FabricText.prototype.set({
@@ -25,7 +27,7 @@ FabricText.prototype.set({
   },
 })
 
-const Text = forwardRef<Handle, TextProps>(({ group, text, ...props }, ref) => {
+const Text = forwardRef<Handle, TextProps>(({ group, text, children, ...props }, ref) => {
   const store = useStoreApi()
 
   const [listeners, attributes] = useSplitProps(props)
@@ -59,9 +61,20 @@ const Text = forwardRef<Handle, TextProps>(({ group, text, ...props }, ref) => {
       })
   }, [attributes.fontFamily, instance])
 
+  const childrenRef = useChildrenPosition<HTMLDivElement>(instance)
+
   useImperativeHandle(ref, () => instance, [instance])
 
-  return null
+  return children ? (
+    <>
+      {isValidElement(children)
+        ? cloneElement(children, {
+            ...(children.props as any),
+            ref: childrenRef,
+          } as any)
+        : null}
+    </>
+  ) : null
 })
 
 export default memo(Text)

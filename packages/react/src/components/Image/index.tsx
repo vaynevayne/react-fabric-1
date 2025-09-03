@@ -1,4 +1,4 @@
-import type { ImageProps as FabricImageProps, ObjectEvents, SerializedImageProps, Canvas } from 'fabric'
+import type { ImageProps as FabricImageProps, ObjectEvents, SerializedImageProps } from 'fabric'
 import { FabricImage } from 'fabric'
 import type { Group as BaseGroup } from 'fabric'
 import { forwardRef, memo, useEffect, useImperativeHandle, useRef } from 'react'
@@ -60,7 +60,7 @@ const Image = forwardRef<Handle, ImageProps>(({ group, src, onLoad, ...options }
   }, [options, store])
 
   useImperativeHandle(ref, () => ({
-    instance: instanceRef.current,
+    instance: instanceRef.current ?? undefined,
   }))
 
   return null

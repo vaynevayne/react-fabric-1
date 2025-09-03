@@ -1,31 +1,40 @@
 import type { Group as BaseGroup } from 'fabric'
-import { Ellipse as BaseEllipse } from 'fabric'
+import { IText, util, Point } from 'fabric'
 import { cloneElement, forwardRef, isValidElement, memo, useImperativeHandle, type ReactNode } from 'react'
 import { useCreateObject } from '../../hooks/useCreateObject'
 import { useSplitProps } from '../../hooks/useSplitProps'
 import type { AllObjectEvents } from '../../types/object'
 import { useChildrenPosition } from '../../hooks/useChildrenPosition'
 
-export type EllipseProps<T = unknown> = Partial<BaseEllipse & AllObjectEvents> & {
+export type ITextProps<T = unknown> = Partial<ConstructorParameters<typeof IText>[1] & AllObjectEvents> & {
   group?: BaseGroup
-  defaultLeft?: number
-  defaultTop?: number
-  defaultWidth?: number
-  defaultHeight?: number
+  text: string
   children?: ReactNode
 } & T
 
-const Ellipse = forwardRef<BaseEllipse | undefined, EllipseProps>(({ group, children, ...props }, ref) => {
-  const [listeners, attributes, defaultValues] = useSplitProps(props)
+IText.prototype.set({
+  _getNonTransformedDimensions() {
+    // Object dimensions
+    return new Point(this.width, this.height).scalarAdd(this.padding)
+  },
+  _calculateCurrentDimensions() {
+    // Controls dimensions
+    return util.transformPoint(this._getTransformedDimensions(), this.getViewportTransform(), true)
+  },
+})
+
+const ITextBox = forwardRef<IText | undefined, ITextProps>(({ group, text, children, ...props }, ref) => {
+  const [listeners, attributes] = useSplitProps(props)
 
   const instance = useCreateObject({
-    Constructor: BaseEllipse,
-    defaultValues,
+    Constructor: IText,
+    param: text,
     attributes,
     group,
     listeners,
   })
   const childrenRef = useChildrenPosition<HTMLDivElement>(instance)
+
   useImperativeHandle(ref, () => instance, [instance])
 
   return children ? (
@@ -40,4 +49,4 @@ const Ellipse = forwardRef<BaseEllipse | undefined, EllipseProps>(({ group, chil
   ) : null
 })
 
-export default memo(Ellipse)
+export default memo(ITextBox)

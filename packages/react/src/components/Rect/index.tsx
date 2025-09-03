@@ -33,9 +33,9 @@ const Rect = forwardRef<BaseRect | undefined, RectProps>(({ group, children, ...
     <>
       {isValidElement(children)
         ? cloneElement(children, {
-            ...(children.props as any),
-            ref: childrenRef,
-          } as any)
+          ...(children.props as any),
+          ref: childrenRef,
+        } as any)
         : null}
     </>
   ) : null

@@ -1,31 +1,30 @@
 import type { Group as BaseGroup } from 'fabric'
-import { Ellipse as BaseEllipse } from 'fabric'
+import { Polyline as BasePolyline } from 'fabric'
 import { cloneElement, forwardRef, isValidElement, memo, useImperativeHandle, type ReactNode } from 'react'
 import { useCreateObject } from '../../hooks/useCreateObject'
 import { useSplitProps } from '../../hooks/useSplitProps'
 import type { AllObjectEvents } from '../../types/object'
 import { useChildrenPosition } from '../../hooks/useChildrenPosition'
 
-export type EllipseProps<T = unknown> = Partial<BaseEllipse & AllObjectEvents> & {
+export type PolylineProps<T = unknown> = Partial<ConstructorParameters<typeof BasePolyline>[1] & AllObjectEvents> & {
   group?: BaseGroup
-  defaultLeft?: number
-  defaultTop?: number
-  defaultWidth?: number
-  defaultHeight?: number
+  path?: string
   children?: ReactNode
 } & T
 
-const Ellipse = forwardRef<BaseEllipse | undefined, EllipseProps>(({ group, children, ...props }, ref) => {
-  const [listeners, attributes, defaultValues] = useSplitProps(props)
+const Polyline = forwardRef<BasePolyline | undefined, PolylineProps>(({ group, points, children, ...props }, ref) => {
+  const [listeners, attributes] = useSplitProps(props)
 
   const instance = useCreateObject({
-    Constructor: BaseEllipse,
-    defaultValues,
+    Constructor: BasePolyline,
+    param: points,
     attributes,
     group,
     listeners,
   })
+
   const childrenRef = useChildrenPosition<HTMLDivElement>(instance)
+
   useImperativeHandle(ref, () => instance, [instance])
 
   return children ? (
@@ -40,4 +39,4 @@ const Ellipse = forwardRef<BaseEllipse | undefined, EllipseProps>(({ group, chil
   ) : null
 })
 
-export default memo(Ellipse)
+export default memo(Polyline)
