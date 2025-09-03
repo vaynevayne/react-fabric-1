@@ -1,5 +1,10 @@
 # @cs-open/tsconfig
 
+## 0.0.4
+
+### Patch Changes
+
+- feat(component): pinch打包问题
 
 ## 0.0.3
 

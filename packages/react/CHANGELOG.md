@@ -1,6 +1,10 @@
 # @cs-open/react-fabric
 
+## 0.0.6
 
+### Patch Changes
+
+- feat(component): pinch打包问题
 
 ### Patch Changes
 

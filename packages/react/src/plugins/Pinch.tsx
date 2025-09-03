@@ -30,7 +30,7 @@ const Pinch = () => {
    * 注册时间
    */
   useEffect(() => {
-    let hammer: HammerManager | null = null
+    let hammer: any = null
 
     /**
      * 双指缩放
@@ -74,17 +74,26 @@ const Pinch = () => {
         const selectionElement = canvas.getSelectionElement()
         if (!selectionElement) return
 
-        // 动态导入 Hammer.js
-        const HammerModule = await import('hammerjs')
-        const Hammer = HammerModule.default
+        // 使用条件导入，避免构建时的依赖解析问题
+        let Hammer: any
+        try {
+          // 尝试导入 hammerjs，如果不存在则跳过
+          const hammerjs = require('hammerjs')
+          Hammer = hammerjs.default || hammerjs
+        } catch {
+          // hammerjs 未安装，静默跳过
+          console.warn('Pinch plugin disabled: hammerjs not found. Install hammerjs to enable touch gestures.')
+          return
+        }
+
         hammer = new Hammer(selectionElement)
         // 启用 pinch 事件识别器
         hammer.get('pinch').set({ enable: true })
         hammer.on('pinchmove', onPinchMove)
         hammer.on('pinchend', onPinchEnd)
       } catch (error) {
-        // hammerjs 未安装或导入失败，静默跳过
-        console.warn('Pinch plugin disabled: hammerjs not found. Install hammerjs to enable touch gestures.', error)
+        // hammerjs 初始化失败，静默跳过
+        console.warn('Pinch plugin disabled: hammerjs initialization failed.', error)
       }
     }
 

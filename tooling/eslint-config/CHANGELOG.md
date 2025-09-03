@@ -1,7 +1,13 @@
 # @cs-open/eslint-config
 
+## 0.0.4
+
+### Patch Changes
+
+- feat(component): pinch打包问题
 
 ## 0.0.3
+
 - sa
 
 ### Patch Changes
