@@ -78,6 +78,7 @@ const Pinch = () => {
         let Hammer: any
         try {
           // 尝试导入 hammerjs，如果不存在则跳过
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
           const hammerjs = require('hammerjs')
           Hammer = hammerjs.default || hammerjs
         } catch {
