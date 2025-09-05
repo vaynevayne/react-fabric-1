@@ -1,5 +1,12 @@
 # @cs-open/rollup-config
 
+## 0.0.6
+
+### Patch Changes
+
+- 6ba579c: feat(core): Table add Settings
+- aa
+
 ## 0.0.5
 
 ### Patch Changes
