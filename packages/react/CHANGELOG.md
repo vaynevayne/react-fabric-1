@@ -1,5 +1,11 @@
 # @cs-open/react-fabric
 
+## 0.0.8
+
+### Patch Changes
+
+- 6ba579c: feat(core): Table add Settings
+
 ## 0.0.7
 
 ### Patch Changes
