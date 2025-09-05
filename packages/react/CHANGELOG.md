@@ -1,11 +1,17 @@
 # @cs-open/react-fabric
 
+## 0.0.9
+
+### Patch Changes
+
+- f0823e8: feat(core): add pluginMask
+
 ## 0.0.8
 
 ### Patch Changes
 
 - 6ba579c: feat(core): Table add Settings
-changeset-release/main
+  changeset-release/main
 
 ## 0.0.7
 
