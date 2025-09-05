@@ -1,10 +1,10 @@
 import type { Group as BaseGroup } from 'fabric'
 import { Textbox as FabricTextbox, util, Point } from 'fabric'
-import { cloneElement, forwardRef, isValidElement, memo, useImperativeHandle, type ReactNode } from 'react'
+import { forwardRef, memo, useImperativeHandle, type ReactNode } from 'react'
 import { useCreateObject } from '../../hooks/useCreateObject'
 import { useSplitProps } from '../../hooks/useSplitProps'
 import type { AllObjectEvents } from '../../types/object'
-import { useChildrenPosition } from '../../hooks/useChildrenPosition'
+import { useInstancePosition } from '../../hooks/useInstancePosition'
 
 export type TextboxProps<T = unknown> = Partial<ConstructorParameters<typeof FabricTextbox>[1] & AllObjectEvents> & {
   group?: BaseGroup
@@ -33,20 +33,10 @@ const Textbox = forwardRef<FabricTextbox | undefined, TextboxProps>(({ group, te
     group,
     listeners,
   })
-  const childrenRef = useChildrenPosition<HTMLDivElement>(instance)
 
   useImperativeHandle(ref, () => instance, [instance])
 
-  return children ? (
-    <>
-      {isValidElement(children)
-        ? cloneElement(children, {
-            ...(children.props as any),
-            ref: childrenRef,
-          } as any)
-        : null}
-    </>
-  ) : null
+  return useInstancePosition(instance, children)
 })
 
 export default memo(Textbox)

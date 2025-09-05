@@ -84,7 +84,9 @@ const createStore = ({
       setMaxManualZoom: (zoom: number) => {
         set({ maxManualZoom: zoom })
       },
-
+      setControls: (controls) => {
+        set({ controls })
+      },
       reset: () => set({ ...getInitialState() }),
     }),
     Object.is,

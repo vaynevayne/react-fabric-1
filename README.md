@@ -270,4 +270,5 @@ pnpm install // 修改 lock 文件
 git add .
 git commit -m 'feat(core): Table add Settings'
 git push
+提交pr到main
 通过 github action 自动发布到 npm

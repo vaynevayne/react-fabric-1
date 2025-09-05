@@ -1,12 +1,12 @@
 import type { Group as BaseGroup } from 'fabric'
 import { FabricText, Point, util } from 'fabric'
-import { cloneElement, forwardRef, isValidElement, memo, useEffect, useImperativeHandle, type ReactNode } from 'react'
+import { forwardRef, memo, useEffect, useImperativeHandle, type ReactNode } from 'react'
 import { useCreateObject } from '../../hooks/useCreateObject'
 import { useSplitProps } from '../../hooks/useSplitProps'
 import { useStoreApi } from '../../hooks/useStore'
 import type { AllObjectEvents } from '../../types/object'
 import FontFaceObserver from 'fontfaceobserver'
-import { useChildrenPosition } from '../../hooks/useChildrenPosition'
+import { useInstancePosition } from '../../hooks/useInstancePosition'
 
 export type Handle = FabricText | undefined
 
@@ -55,26 +55,14 @@ const Text = forwardRef<Handle, TextProps>(({ group, text, children, ...props },
         })
         canvas?.requestRenderAll()
       })
-      .catch(() => {
+      .catch(error => {
         // 加载失败
-        console.error(`ReactFabric: 字体加载失败: ${attributes.fontFamily}`)
+        console.error(`ReactFabric: 字体加载失败: ${attributes.fontFamily}`, error)
       })
   }, [attributes.fontFamily, instance])
 
-  const childrenRef = useChildrenPosition<HTMLDivElement>(instance)
-
   useImperativeHandle(ref, () => instance, [instance])
-
-  return children ? (
-    <>
-      {isValidElement(children)
-        ? cloneElement(children, {
-            ...(children.props as any),
-            ref: childrenRef,
-          } as any)
-        : null}
-    </>
-  ) : null
+  return useInstancePosition(instance, children)
 })
 
 export default memo(Text)

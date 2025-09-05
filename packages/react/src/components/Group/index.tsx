@@ -42,7 +42,6 @@ const Group = memo(({ children, controlsVisibility, ...props }: MyGroupProps) =>
       }
       setInstance(null)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store])
 
   // 等待子元素添加完成后，再将 group 添加到 canvas

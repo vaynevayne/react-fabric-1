@@ -1,21 +1,18 @@
 import type { ImageProps as FabricImageProps, ObjectEvents, SerializedImageProps } from 'fabric'
 import { FabricImage } from 'fabric'
 import type { Group as BaseGroup } from 'fabric'
-import { forwardRef, memo, useEffect, useImperativeHandle, useRef } from 'react'
-import { useDidUpdate } from '../../hooks/useDidUpdate'
+import { forwardRef, memo, useEffect, useImperativeHandle, useRef, type ReactNode } from 'react'
 import { useStoreApi } from '../../hooks/useStore'
-
-export type Handle = {
-  instance: FabricImage | undefined
-}
+import { useInstancePosition } from '../../hooks/useInstancePosition'
 
 export type ImageProps = Partial<FabricImageProps> & {
   src: string
   group?: BaseGroup
   onLoad?: (imageSource: FabricImage<Partial<ImageProps>, SerializedImageProps, ObjectEvents>) => void
+  children?: ReactNode
 }
 
-const Image = forwardRef<Handle, ImageProps>(({ group, src, onLoad, ...options }, ref) => {
+const Image = forwardRef<FabricImage | undefined, ImageProps>(({ group, src, onLoad, children, ...options }, ref) => {
   const instanceRef = useRef<FabricImage>()
   const onLoadRef = useRef(onLoad)
   const store = useStoreApi()
@@ -48,22 +45,9 @@ const Image = forwardRef<Handle, ImageProps>(({ group, src, onLoad, ...options }
     }
   }, [src, store, group]) // 只包含初始化需要的依赖
 
-  // 只在 options 更新时执行
-  useDidUpdate(() => {
-    const { canvas } = store.getState()
+  useImperativeHandle(ref, () => instanceRef.current)
 
-    if (instanceRef.current) {
-      instanceRef.current.set(options)
-      instanceRef.current.setCoords()
-      canvas?.requestRenderAll()
-    }
-  }, [options, store])
-
-  useImperativeHandle(ref, () => ({
-    instance: instanceRef.current ?? undefined,
-  }))
-
-  return null
+  return useInstancePosition(instanceRef.current, children)
 })
 
 export default memo(Image)

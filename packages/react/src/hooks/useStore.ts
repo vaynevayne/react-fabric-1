@@ -13,7 +13,7 @@ function useStore<StateSlice = unknown>(
   const store = useContext(StoreContext)
 
   if (store === null) {
-    throw new Error('缺失zustandProvider')
+    throw new Error('useReactFabric 需要搭配 zustandProvider')
   }
 
   return useZustandStore(store, selector, equalityFn)
