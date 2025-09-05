@@ -6,6 +6,7 @@
 
 - 6ba579c: feat(core): Table add Settings
 
+
 ## 0.0.5
 
 ### Patch Changes

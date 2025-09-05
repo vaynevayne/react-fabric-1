@@ -5,6 +5,7 @@
 ### Patch Changes
 
 - 6ba579c: feat(core): Table add Settings
+changeset-release/main
 
 ## 0.0.7
 

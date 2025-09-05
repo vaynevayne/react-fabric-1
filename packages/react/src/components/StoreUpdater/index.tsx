@@ -11,17 +11,19 @@ const reactFabricFieldsToTrack = [
   'width',
   'height',
   'zoomable',
+  'panAble',
   'defaultCentered',
   'defaultSelection',
   'defaultDraggable',
   'selection',
+  'manualZoom',
 ] as const
 
 type ReactFabricFieldsToTrack = (typeof reactFabricFieldsToTrack)[number]
 
 type StoreUpdaterProps = Pick<ReactFabricProps, ReactFabricFieldsToTrack>
 
-const fieldsToTrack = [...reactFabricFieldsToTrack, ] as const
+const fieldsToTrack = [...reactFabricFieldsToTrack] as const
 
 const selector = (s: ReactFabricState) => ({
   setMinManualZoom: s.setMinManualZoom,
@@ -34,7 +36,10 @@ const selector = (s: ReactFabricState) => ({
 const initPrevValues = {}
 
 export function StoreUpdater<NodeType extends Node = Node>(props: StoreUpdaterProps) {
-  const { reset, setMinManualZoom, setMaxManualZoom, setDefaultSelection,setDefaultDraggable } = useStore(selector, shallow)
+  const { reset, setMinManualZoom, setMaxManualZoom, setDefaultSelection, setDefaultDraggable } = useStore(
+    selector,
+    shallow,
+  )
   const store = useStoreApi<NodeType>()
 
   useEffect(() => {
@@ -45,7 +50,6 @@ export function StoreUpdater<NodeType extends Node = Node>(props: StoreUpdaterPr
       previousFields.current = initPrevValues
       reset()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const previousFields = useRef<Partial<StoreUpdaterProps>>(initPrevValues)
@@ -64,7 +68,6 @@ export function StoreUpdater<NodeType extends Node = Node>(props: StoreUpdaterPr
       }
       previousFields.current = props
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     fieldsToTrack.map(fieldName => props[fieldName]),
   )
 

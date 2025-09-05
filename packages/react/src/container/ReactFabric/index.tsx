@@ -37,6 +37,8 @@ export type ReactFabricProps = BaseCanvasProps & {
   style?: CSSProperties
   className?: string
   zoomable?: boolean
+  panAble?: boolean
+  manualZoom?: number
   minManualZoom?: number
   maxManualZoom?: number
   /** 背景图是否默认居中显示
@@ -73,9 +75,11 @@ const ForwardReactFabric = forwardRef<HTMLDivElement, ReactFabricProps>(
       onMouseMove,
       onMouseUp,
       zoomable,
+      panAble,
       defaultSelection,
       defaultCentered,
       defaultDraggable,
+      manualZoom,
       ...rest
     },
     ref,
@@ -87,10 +91,12 @@ const ForwardReactFabric = forwardRef<HTMLDivElement, ReactFabricProps>(
             minManualZoom={minManualZoom}
             maxManualZoom={maxManualZoom}
             zoomable={zoomable}
+            panAble={panAble}
             defaultCentered={defaultCentered}
             selection={selection}
             defaultSelection={defaultSelection}
             defaultDraggable={defaultDraggable}
+            manualZoom={manualZoom}
           />
 
           <Canvas
