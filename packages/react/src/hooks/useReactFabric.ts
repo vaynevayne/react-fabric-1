@@ -19,6 +19,7 @@ const selector = (s: ReactFabricState) => ({
   setZoomable: s.setZoomable,
   scale: s.scale,
   zoom: s.zoom,
+  fitZoom: s.fitZoom,
   defaultCentered: s.defaultCentered,
   manualZoom: s.manualZoom,
   maxManualZoom: s.maxManualZoom,
