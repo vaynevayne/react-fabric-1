@@ -33,6 +33,7 @@ const getInitialState = ({
     isDragging: false,
     selection: defaultSelection ?? true, // 必须跟着 fabric 默认值 true
     zoomable: true,
+    panAble: true,
     draggable: false,
     scale: 1,
     lastPosX: undefined,
@@ -41,6 +42,7 @@ const getInitialState = ({
     fitZoom: 1,
     manualZoom: 1,
     defaultCentered: false,
+    controls: []
   }
 }
 

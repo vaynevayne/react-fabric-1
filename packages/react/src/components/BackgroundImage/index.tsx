@@ -131,6 +131,13 @@ const BackgroundImage = forwardRef<Handle, BackgroundImageProps>(
       setLoading(true)
       FabricImage.fromURL(src, { crossOrigin: 'anonymous' })
         .then(imageSource => {
+          const currentSrc = imageSource.getSrc()
+          const latestSrc = backgroundImageRef.current?.getSrc()
+
+          if (latestSrc && currentSrc !== latestSrc) {
+            return
+          }
+
           const { canvas } = store.getState()
           if (canvas) {
             // 初始化时角度的旋转，一定要放到 updateViewport 之后；先画正图片，再进行旋转
@@ -178,7 +185,6 @@ const BackgroundImage = forwardRef<Handle, BackgroundImageProps>(
           canvas.renderAll()
         }
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [src])
 
     useDidUpdate(() => {

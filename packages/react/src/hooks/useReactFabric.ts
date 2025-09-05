@@ -90,10 +90,9 @@ export function useReactFabric() {
       /**
        * 重置视口/缩放
        */
-      resetViewport: () => {
-        let { canvas, fitZoom = 1, defaultCentered } = store.getState()
+      resetViewport: (manualZoom = 1) => {
+        const { canvas, fitZoom = 1, defaultCentered } = store.getState()
 
-        const manualZoom = 1
         const combinedZoom = manualZoom * fitZoom
         if (canvas) {
           // 先重置 viewport transform

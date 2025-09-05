@@ -1,6 +1,7 @@
 import type { Canvas } from 'fabric'
 import type { OnNodeDrag, OnNodesChange, OnNodesDelete } from './component-props'
 import type { InternalNodeBase, Node } from './nodes'
+import type { ReactNode } from 'react'
 
 export type OnError = (id: string, message: string) => void
 
@@ -36,7 +37,8 @@ export type ReactFabricStore<NodeType extends Node = Node> = {
   onNodesDelete?: OnNodesDelete<NodeType>
   debug: boolean
   zoomable: boolean
-
+  panAble: boolean
+  controls: { id: string; className?: string; children?: ReactNode; ref?: React.RefObject<HTMLDivElement> }[]
   onError?: OnError
 }
 
@@ -61,5 +63,6 @@ export type ReactFabricActions = {
   setDefaultSelection: (selection: boolean | undefined) => void
   setDefaultDraggable: (draggable: boolean | undefined) => void
   setIsDragging: (bool: boolean) => void
+  setControls: (controls: { id: string; className?: string; ref?: React.RefObject<HTMLDivElement> }[]) => void
 }
 export type ReactFabricState<NodeType extends Node = Node> = ReactFabricStore<NodeType> & ReactFabricActions

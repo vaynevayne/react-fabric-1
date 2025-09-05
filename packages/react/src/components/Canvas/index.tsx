@@ -5,7 +5,7 @@ import { useEffect, useLayoutEffect, useRef } from 'react'
 import useDraggable from '../../hooks/useDraggable'
 import useResizeHandler from '../../hooks/useResizeHandler'
 import { useSplitProps } from '../../hooks/useSplitProps'
-import { useStoreApi } from '../../hooks/useStore'
+import { useStore, useStoreApi } from '../../hooks/useStore'
 import type { AllCanvasEvents } from '../../types/canvas'
 import { bindEvents } from '../../utils/events'
 
@@ -34,6 +34,7 @@ const Canvas = ({ children, onMouseWheel, ...props }: CanvasProps) => {
   const canvasDomRef = useRef<HTMLCanvasElement | null>(null)
   useDraggable()
   const domRef = useRef<HTMLDivElement>(null)
+  const controls = useStore(state => state.controls)
 
   const [listeners, attributes] = useSplitProps(props)
 
@@ -50,7 +51,7 @@ const Canvas = ({ children, onMouseWheel, ...props }: CanvasProps) => {
     store.setState({
       canvas: canvasRef.current,
     })
-    //@ts-expect-error
+    //@ts-expect-error 报错撒撒
     window.canvas = canvasRef.current
 
     return () => {
@@ -62,14 +63,13 @@ const Canvas = ({ children, onMouseWheel, ...props }: CanvasProps) => {
         canvas: null,
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useResizeHandler()
 
   useEffect(() => {
     const onMouseWheelHandler = (opt: TPointerEventInfo<WheelEvent>) => {
-      const { zoomable, maxManualZoom, minManualZoom, fitZoom = 1, zoom } = store.getState()
+      const { zoomable, panAble, maxManualZoom, minManualZoom, fitZoom = 1, zoom } = store.getState()
 
       // 阻止默认行为
       opt.e.preventDefault()
@@ -85,7 +85,7 @@ const Canvas = ({ children, onMouseWheel, ...props }: CanvasProps) => {
 
         const delta = opt.e.deltaY
         const zoomFactor = delta > 0 ? 0.95 : 1.05
-        let currentManualZoom = zoom / fitZoom
+        const currentManualZoom = zoom / fitZoom
         let newManualZoom = currentManualZoom * zoomFactor
 
         if (newManualZoom > maxManualZoom) newManualZoom = maxManualZoom
@@ -100,6 +100,7 @@ const Canvas = ({ children, onMouseWheel, ...props }: CanvasProps) => {
           zoom: combinedZoom,
         })
       } else {
+        if (!panAble) return
         // 平移逻辑
         // 如果觉得太灵敏了，可以调小这个值，比如改为 1.2 或更小
         const sensitivityFactor = 1.5
@@ -134,6 +135,19 @@ const Canvas = ({ children, onMouseWheel, ...props }: CanvasProps) => {
     <div className="react-fabric__canvas" ref={domRef} style={style}>
       <canvas ref={canvasDomRef}></canvas>
       {children}
+      {controls.map(control => (
+        <div
+          key={control.id}
+          id={control.id}
+          style={{
+            position: 'absolute',
+          }}
+          className={`react-fabric__control ${control.className}`}
+          ref={control.ref}
+        >
+          {control.children}
+        </div>
+      ))}
     </div>
   )
 }
