@@ -2,7 +2,7 @@ export { default as ReactFabric } from './container/ReactFabric'
 export type { ReactFabricProps } from './container/ReactFabric'
 export { useReactFabric } from './hooks/useReactFabric'
 export { useZoom } from './hooks/useZoom'
-
+export { useStore, useStoreApi } from './hooks/useStore'
 
 // Components
 export { default as BackgroundImage } from './components/BackgroundImage'
@@ -50,6 +50,10 @@ export type { ITextProps } from './components/IText'
 // Textbox
 export { default as Textbox } from './components/Textbox'
 export type { TextboxProps } from './components/Textbox'
+
+// Polyline
+export { default as Polyline } from './components/Polyline'
+export type { PolylineProps } from './components/Polyline'
 
 // WavyLine
 export { default as WavyLine } from './components/WavyLine'
