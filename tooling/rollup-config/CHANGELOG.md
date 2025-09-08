@@ -1,5 +1,11 @@
 # @cs-open/rollup-config
 
+## 0.0.9
+
+### Patch Changes
+
+- eb5b4d3: Dev
+
 ## 0.0.8
 
 ### Patch Changes

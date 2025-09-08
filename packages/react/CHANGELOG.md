@@ -1,5 +1,11 @@
 # @cs-open/react-fabric
 
+## 0.0.12
+
+### Patch Changes
+
+- eb5b4d3: Dev
+
 ## 0.0.11
 
 ### Patch Changes
