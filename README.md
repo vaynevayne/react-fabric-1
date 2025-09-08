@@ -268,7 +268,7 @@ desired changeset ? true
 pnpm run version-packages // 修改 package.json 的 version
 pnpm install // 修改 lock 文件
 git add .
-git commit -m 'feat(core): upgrade version'
+git commit -m 'chore(core): version bump'
 git push
 提交pr到main
 通过 github action 自动发布到 npm

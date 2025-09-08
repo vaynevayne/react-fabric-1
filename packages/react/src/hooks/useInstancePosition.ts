@@ -16,6 +16,21 @@ export function useInstancePosition(instance: FabricObject | undefined, children
   const childElementRef = useRef<HTMLElement | null>(null)
   const lastPositionRef = useRef<string>('')
 
+  const handleRef = useCallback(
+    (node: any) => {
+      childElementRef.current = node
+      const currentRef = isValidElement(children) ? (children as any).ref : undefined
+      if (currentRef) {
+        if (typeof currentRef === 'function') {
+          currentRef(node)
+        } else if (currentRef) {
+          currentRef.current = node
+        }
+      }
+    },
+    [children],
+  )
+
   useEffect(() => {
     if (!instance) return
 
@@ -52,24 +67,9 @@ export function useInstancePosition(instance: FabricObject | undefined, children
   }, [instance, store])
 
   // 处理 children
-  if (!isValidElement(children)) return children
+  if (!isValidElement(children)) return null
 
   const childProps = children.props as any
-  const originalRef = (children as any).ref
-
-  const handleRef = useCallback(
-    (node: any) => {
-      childElementRef.current = node
-      if (originalRef) {
-        if (typeof originalRef === 'function') {
-          originalRef(node)
-        } else if (originalRef) {
-          originalRef.current = node
-        }
-      }
-    },
-    [originalRef],
-  )
 
   return cloneElement(children, {
     ...childProps,
