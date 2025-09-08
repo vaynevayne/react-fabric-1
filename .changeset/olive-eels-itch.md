@@ -5,4 +5,4 @@
 "@cs-open/tsconfig": patch
 ---
 
-feat(core): upgrade version
+Dev
