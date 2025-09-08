@@ -1,5 +1,11 @@
 # @cs-open/tsconfig
 
+## 0.0.10
+
+### Patch Changes
+
+- a
+
 ## 0.0.9
 
 ### Patch Changes
@@ -9,7 +15,6 @@
 ## 0.0.8
 
 ### Patch Changes
-
 
 - d346a5b: feat(core): upgrade version
 
