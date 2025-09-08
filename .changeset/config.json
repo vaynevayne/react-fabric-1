@@ -6,5 +6,6 @@
   "linked": [],
   "access": "public",
   "updateInternalDependencies": "patch",
-  "ignore": ["@cs-open/astro"]
+  "ignore": ["@cs-open/astro"],
+  "baseBranch": "main"
 }

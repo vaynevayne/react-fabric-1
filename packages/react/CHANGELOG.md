@@ -1,5 +1,12 @@
 # @cs-open/react-fabric
 
+## 0.0.11
+
+### Patch Changes
+
+- asa
+- d346a5b: feat(core): upgrade version
+
 ## 0.0.10
 
 ### Patch Changes
