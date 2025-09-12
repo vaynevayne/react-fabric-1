@@ -1,20 +1,9 @@
 import type { CSSProperties } from 'react'
 import { forwardRef, memo } from 'react'
 import { Wrapper } from './Wrapper'
-import Canvas from '../../components/Canvas'
+import Canvas, { type CanvasProps } from '../../components/Canvas'
 import { StoreUpdater } from '../../components/StoreUpdater'
 import Loading from '../../components/Loading'
-
-// 自定义基础事件类型
-type FabricEvent = {
-  e: Event
-  pointer: { x: number; y: number }
-  target?: unknown
-  subTargets?: unknown[]
-  button?: number
-  isClick?: boolean
-  transform?: unknown
-}
 
 // 重新定义 CanvasProps，不再从 components/Canvas 导入
 type BaseCanvasProps = {
@@ -33,31 +22,28 @@ const wrapperStyle: CSSProperties = {
   zIndex: 0,
 }
 
-export type ReactFabricProps = BaseCanvasProps & {
-  style?: CSSProperties
-  className?: string
-  zoomable?: boolean
-  panAble?: boolean
-  manualZoom?: number
-  minManualZoom?: number
-  maxManualZoom?: number
-  /** 背景图是否默认居中显示
-   * @default false
-   */
-  defaultCentered?: boolean
-  /** 是否启用选择功能
-   * @default true
-   *  */
-  defaultSelection?: boolean
-  /**
-   * 是否默认可拖拽
-   */
-  defaultDraggable?: boolean
-  onMouseDown?: (e: FabricEvent) => void
-  onMouseMove?: (e: FabricEvent) => void
-  onMouseUp?: (e: FabricEvent) => void
-  onMouseWheel?: (e: FabricEvent) => void
-}
+export type ReactFabricProps = BaseCanvasProps &
+  CanvasProps & {
+    style?: CSSProperties
+    className?: string
+    zoomable?: boolean
+    panAble?: boolean
+    manualZoom?: number
+    minManualZoom?: number
+    maxManualZoom?: number
+    /** 背景图是否默认居中显示
+     * @default false
+     */
+    defaultCentered?: boolean
+    /** 是否启用选择功能
+     * @default true
+     *  */
+    defaultSelection?: boolean
+    /**
+     * 是否默认可拖拽
+     */
+    defaultDraggable?: boolean
+  }
 
 const ForwardReactFabric = forwardRef<HTMLDivElement, ReactFabricProps>(
   (
@@ -97,6 +83,8 @@ const ForwardReactFabric = forwardRef<HTMLDivElement, ReactFabricProps>(
             defaultSelection={defaultSelection}
             defaultDraggable={defaultDraggable}
             manualZoom={manualZoom}
+            width={width}
+            height={height}
           />
 
           <Canvas

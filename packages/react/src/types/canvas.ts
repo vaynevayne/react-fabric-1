@@ -1,4 +1,4 @@
-import type { CanvasEvents } from 'fabric'
+import type { CanvasEvents, TPointerEvent, TPointerEventInfo } from 'fabric'
 import type { MyCapitalize } from './utils'
 
 export type RawEventNames<Events extends Record<string, any>> = {
@@ -13,9 +13,12 @@ type InvertedEventType<T extends Record<string, string>> = {
 // 应用反转类型到 Canvas 事件
 type InvertedEventNames<Events extends Record<string, any>> = InvertedEventType<RawEventNames<Events>>
 
-// 创建最终的 Canvas 事件类型，直接使用 CanvasEvents 中的类型定义
+// 对外公开的事件参数类型（使用可命名的组合）
+export type FabricPublicEvent = TPointerEventInfo<TPointerEvent | MouseEvent | WheelEvent | TouchEvent>
+
+// 创建最终的 Canvas 事件类型，使用可命名的公共事件信息类型，避免泄露 fabric 内部类型
 export type AllEvents<Events extends Record<string, any>> = {
-  [K in keyof InvertedEventNames<Events>]: (opt: Events[InvertedEventNames<Events>[K] & keyof Events]) => void
+  [K in keyof InvertedEventNames<Events>]: (opt: FabricPublicEvent) => void
 }
 
 // 为了向后兼容，可以添加类型别名
