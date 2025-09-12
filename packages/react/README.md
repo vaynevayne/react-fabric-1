@@ -12,19 +12,6 @@ yarn add @cs-open/react-fabric
 pnpm add @cs-open/react-fabric
 ```
 
-## 依赖要求
-
-### 必需依赖
-
-以下依赖会自动安装：
-
-- `fabric` - Fabric.js 核心库
-- `react` - React 框架
-- `react-dom` - React DOM 渲染器
-- `zustand` - 状态管理
-- `@floating-ui/core` - 浮动 UI 组件
-- `use-sync-external-store` - 同步外部存储
-
 ### 可选依赖
 
 某些插件需要额外的依赖才能正常工作：
