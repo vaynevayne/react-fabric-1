@@ -161,6 +161,7 @@ function AdvancedCanvas() {
 
       {/* 矩形绘制工具 */}
       <PluginFreeRect
+        fill={'red'}
         onComplete={(rect, { canvas }) => {
           console.log('矩形绘制完成:', rect)
         }}
