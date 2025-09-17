@@ -10,7 +10,7 @@ import { useInstancePosition } from '../../hooks/useInstancePosition'
 
 export type Handle = FabricText | undefined
 
-export type TextProps<T = unknown> = Partial<ConstructorParameters<typeof FabricText>[1] & AllObjectEvents> & {
+export type TextProps<T = unknown> = Partial<FabricText & AllObjectEvents> & {
   group?: BaseGroup
   text: string
   children?: ReactNode
@@ -65,4 +65,5 @@ const Text = forwardRef<Handle, TextProps>(({ group, text, children, ...props },
   return useInstancePosition(instance, children)
 })
 
+Text.displayName = 'Text'
 export default memo(Text)

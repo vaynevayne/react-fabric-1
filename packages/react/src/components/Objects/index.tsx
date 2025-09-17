@@ -6,7 +6,7 @@ import Line from '../Line'
 import IText from '../IText'
 
 export type ObjectsProps = {
-  objects: { type: string;[index: string]: any }[]
+  objects: { type: string; [index: string]: any }[]
 }
 
 const Objects = ({ objects }: ObjectsProps) => {
@@ -27,7 +27,7 @@ const Objects = ({ objects }: ObjectsProps) => {
         if (!Component) {
           return null
         }
-        return <Component {...options} />
+        return <Component {...(options as any)} />
       })}
     </>
   )

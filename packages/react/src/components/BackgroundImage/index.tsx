@@ -12,7 +12,9 @@ import { useDidUpdate } from '../../hooks/useDidUpdate'
 import { useStore, useStoreApi } from '../../hooks/useStore'
 import type { ReactFabricState } from '../../types/store'
 
-export type Handle = {}
+export type Handle = {
+  instance: FabricImage | null
+}
 
 type ScaleMode = {
   scaleToFit?: boolean
@@ -22,6 +24,7 @@ export type BackgroundImageProps = Partial<ImageProps> & {
   src: string
   onLoad?: (imageSource: FabricImage<Partial<ImageProps>, SerializedImageProps, ObjectEvents>) => void
   onScaling?: (scale: BasicTransformEvent<TPointerEvent>) => void
+  onError?: (e: any) => void
 
   /** 自动缩放至容器宽高 */
 } & ScaleMode
@@ -32,7 +35,7 @@ const selector = (s: ReactFabricState) => ({
 })
 
 const BackgroundImage = forwardRef<Handle, BackgroundImageProps>(
-  ({ src, onLoad, onScaling, scaleToFit, scaleToCover, ...options }, ref) => {
+  ({ src, onLoad, onScaling, onError, scaleToFit, scaleToCover, ...options }, ref) => {
     const backgroundImageRef = useRef<FabricImage | null>(null)
 
     const store = useStoreApi()
@@ -131,6 +134,7 @@ const BackgroundImage = forwardRef<Handle, BackgroundImageProps>(
       setLoading(true)
       FabricImage.fromURL(src, { crossOrigin: 'anonymous' })
         .then(imageSource => {
+          onLoad?.(imageSource)
           const currentSrc = imageSource.getSrc()
           const latestSrc = backgroundImageRef.current?.getSrc()
 
@@ -165,12 +169,14 @@ const BackgroundImage = forwardRef<Handle, BackgroundImageProps>(
             }
 
             // imageSource.angle = options.angle || 0
-            onLoad?.(imageSource)
           } else {
             console.warn('ReactFabric:BackgroundImage: !canvas', canvas)
           }
         })
-        .catch(console.error)
+        .catch(e => {
+          onError?.(e)
+          console.error('[ReactFabric] BackgroundImage: fromURL error', e)
+        })
         .finally(() => {
           if (domNode) domNode.dataset.src = src
           setLoading(false)
