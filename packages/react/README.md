@@ -2,6 +2,8 @@
 
 React 组件库，基于 Fabric.js 构建，提供强大的 Canvas 绘图功能。
 
+<img width="1770" height="1478" alt="react-fabric demo" src="https://github.com/user-attachments/assets/02ff8152-bad3-4e99-82db-13eefc5413b0" />
+
 ## 安装
 
 ```bash
@@ -117,3 +119,19 @@ DOM control
 ## 许可证
 
 MIT
+
+```jsx
+pnpm run changeset // 修改 changeset.md
+全选 changed & unchanged enter
+不选 enter major
+不选 enter minor
+Summary 随便写
+desired changeset ? true
+pnpm run version-packages // 修改 package.json 的 version
+pnpm install // 修改 lock 文件
+git add .
+git commit -m 'chore(core): version bump'
+git push
+提交pr到main
+通过 github action 自动发布到 npm
+```
