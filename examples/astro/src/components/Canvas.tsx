@@ -7,6 +7,7 @@ import {
   useReactFabric,
   ReactFabricProvider,
   Control,
+  Text,
   // PluginGridLine,
 } from '@cs-open/react-fabric'
 import './Canvas.css'
@@ -46,6 +47,7 @@ export default function Counter() {
               />
             </Control>
           ))}
+          <Text text="red" />
           {/* <PluginGridLine></PluginGridLine> */}
         </ReactFabric>
       </ReactFabricProvider>
@@ -57,7 +59,7 @@ const Toolbar = () => {
   const { resetViewport, zoomIn, zoomOut, manualZoom, canvas } = useReactFabric()
   return (
     <div>
-      <button onClick={resetViewport}>重置</button>
+      <button onClick={() => resetViewport()}>重置</button>
       <button onClick={zoomIn}>放大</button>
       <span> {Math.round(manualZoom * 100)}%</span>
       <button onClick={zoomOut}>缩小</button>
