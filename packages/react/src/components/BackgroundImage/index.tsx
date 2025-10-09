@@ -39,6 +39,7 @@ const BackgroundImage = forwardRef<Handle, BackgroundImageProps>(
     const backgroundImageRef = useRef<FabricImage | null>(null)
 
     const store = useStoreApi()
+    const newestSrcRef = useRef(src)
 
     const { width, height } = useStore(selector)
 
@@ -132,13 +133,14 @@ const BackgroundImage = forwardRef<Handle, BackgroundImageProps>(
       }
       const { domNode, setLoading } = store.getState()
       setLoading(true)
+      newestSrcRef.current = src
+
       FabricImage.fromURL(src, { crossOrigin: 'anonymous' })
         .then(imageSource => {
           onLoad?.(imageSource)
           const currentSrc = imageSource.getSrc()
-          const latestSrc = backgroundImageRef.current?.getSrc()
 
-          if (latestSrc && currentSrc !== latestSrc) {
+          if (currentSrc !== newestSrcRef.current) {
             return
           }
 
