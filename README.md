@@ -293,6 +293,9 @@ function Toolbar() {
 
 ### 跨组件状态访问
 
+ReactFabricProvider 是一个上下文提供程序，允许您从组件树中的任何位置访问流的内部状态，例如子组件，甚至在 ReactFabric 之外 元件。它通常用于应用程序的顶层。
+在这种情况下，您可能需要使用 ReactFabricProvider 组件
+
 ```tsx
 import { ReactFabricProvider, useReactFabric } from '@cs-open/react-fabric'
 
